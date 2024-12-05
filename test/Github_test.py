@@ -24,7 +24,7 @@ def org_name():
 
 @pytest.fixture(scope="module")
 def repository_name():
-    return "test_repository"
+    return "michelle_test_repository"
 
 @pytest.fixture(scope="module")
 def user_name():
