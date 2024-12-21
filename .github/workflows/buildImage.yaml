@@ -1,0 +1,90 @@
+name: "🐋Build Docker image"
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        type: string
+        description: Version o tag de la imagen
+        required: true
+        default: latest
+      external_port:
+        type: number
+        description: Puerto donde el servicio será expuesto a la red
+        required: false
+        default: 81
+      internal_port:
+        type: number
+        description: Puerto donde corre el servicio dentro del contenedor
+        required: false
+        default: 8000
+      digital_ocean_deploy:
+        type: boolean
+        description: Desplegar en Digital Ocean al finalizar la construccion
+        required: true
+        default: false
+      anton_deploy:
+        type: boolean
+        description: Desplegar en DEV con Anton
+        required: true
+        default: false
+
+env:
+  DB_URL: ${{ secrets.DB_URL }}
+  DB_URL_DEV: ${{ secrets.DB_URL_DEV }}
+  DB_USERNAME: ${{ secrets.DB_USERNAME }}
+  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+  IMAGE_NAME: ghcr.io/sintergicaai/michelle
+
+jobs:
+  build_image:
+    runs-on:
+      ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Login on DockerHub
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: GTWALOM
+          password: ${{ secrets.ANTON_TOKEN }}
+
+      - name: Configure QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Configure buildx
+        uses: docker/setup-buildx-action@v1.0.0
+
+      - name: Setup java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+
+      - name: Build project
+        run: gradle build --scan
+
+      - name: Start buildx
+        uses: docker/build-push-action@v4.0.0
+        id: build
+        with:
+          context: .
+          tags: ${{ env.IMAGE_NAME }}:${{ inputs.tag }},${{ env.IMAGE_NAME }}:latest
+          platforms: linux/amd64,linux/arm64
+          push: true
+  deploy:
+    needs: build_image
+    if: ${{ inputs.anton_deploy || inputs.digital_ocean_deploy }}
+    uses: ./.github/workflows/deploy.yaml
+    with:
+      external_port: ${{ fromJSON(inputs.external_port) }}
+      internal_port: ${{ fromJSON(inputs.internal_port) }}
+      tag: ${{ github.event.inputs.tag }}
+      deploy_on_anton: ${{ fromJSON(inputs.deploy_on_anton) }}
+      deploy_digital_ocean: ${{ fromJSON(inputs.deploy_digital_ocean) }}
+    secrets: inherit
