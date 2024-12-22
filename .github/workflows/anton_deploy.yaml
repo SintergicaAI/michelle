@@ -1,0 +1,63 @@
+name: "🤖Deploy on Anton"
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        description: Version o tag de la imagen
+        required: true
+        default: latest
+      external_port:
+        type: number
+        description: Puerto para exponer el servicio
+        required: true
+        default: 42001
+      internal_port:
+        type: number
+        description: Puerto interno donde corre el servicio
+        required: true
+        default: 42001
+      anton_address:
+        type: string
+        description: Direccion del anton en el cual se va a desplegar el servicio
+        required: true
+        default: 24.199.72.114
+
+  workflow_dispatch:
+    inputs:
+      tag:
+        type: string
+        description: Version o tag de la imagen
+        required: true
+        default: latest
+      external_port:
+        type: number
+        description: Puerto para exponer el servicio
+        required: true
+        default: 42001
+      internal_port:
+        type: number
+        description: Puerto interno donde corre el servicio
+        required: true
+        default: 42001
+      anton_address:
+        type: string
+        description: Direccion del anton en el cual se va a desplegar el servicio
+        required: true
+        default: 24.199.72.114
+
+env:
+  IMAGE_NAME: 'ghcr.io/sintergicaai/lightner_back'
+
+jobs:
+  anton_deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Request deployment to anton
+        uses: fjogeleit/http-request-action@v1.14.2
+        with:
+          url: 'http://${{ inputs.anton_address }}:42000/service/lightner_back?image=${{ env.IMAGE_NAME }}&tag=${{ inputs.tag }}&iport=${{ inputs.internal_port }}&eport=${{ inputs.external_port }}&privileged=0'
+          method: 'POST'
+          timeout: 20000
+          data: '{"DB_URL": "${{ secrets.DB_URL_DEV }}","DB_USERNAME": "${{ secrets.DB_USERNAME }}","DB_PASSWORD": "${{ secrets.DB_PASSWORD }}"}'
