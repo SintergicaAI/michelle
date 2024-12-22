@@ -23,11 +23,6 @@ on:
         description: Desplegar en Digital Ocean al finalizar la construccion
         required: true
         default: false
-      anton_deploy:
-        type: boolean
-        description: Desplegar en DEV con Anton
-        required: true
-        default: false
 
 env:
   IMAGE_NAME: ghcr.io/sintergicaai/michelle
