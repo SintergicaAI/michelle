@@ -4,8 +4,8 @@ info:
   description: Michelle es un servicio que administra las operaciones para la organización de SintergicaAI
   version: 0.0.1
 servers:
-  - url: 'https'
-    description: Aun no listo
+  - url: 'https://michelle-at5k7.ondigitalocean.app/'
+    description: Servidor de produccion
 components:
   responses:
     500:
