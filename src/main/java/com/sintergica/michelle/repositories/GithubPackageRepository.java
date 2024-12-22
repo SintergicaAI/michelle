@@ -1,7 +1,7 @@
-package com.sintergica.lightner_back.repositories;
+package com.sintergica.michelle.repositories;
 
-import com.sintergica.lightner_back.configuration.GithubConfig;
-import com.sintergica.lightner_back.entities.Package;
+import com.sintergica.michelle.configuration.GithubConfig;
+import com.sintergica.michelle.entities.Package;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Types;

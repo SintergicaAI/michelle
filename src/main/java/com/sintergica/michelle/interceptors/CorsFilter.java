@@ -1,4 +1,4 @@
-package com.sintergica.lightner_back.interceptors;
+package com.sintergica.michelle.interceptors;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;

@@ -1,7 +1,7 @@
-package com.sintergica.lightner_back.controllers;
+package com.sintergica.michelle.controllers;
 
-import com.sintergica.lightner_back.entities.Package;
-import com.sintergica.lightner_back.services.PackageService;
+import com.sintergica.michelle.entities.Package;
+import com.sintergica.michelle.services.PackageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

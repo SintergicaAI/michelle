@@ -1,7 +1,7 @@
-package com.sintergica.lightner_back.services;
+package com.sintergica.michelle.services;
 
-import com.sintergica.lightner_back.entities.Repository;
-import com.sintergica.lightner_back.repositories.GHRepositoryRepository;
+import com.sintergica.michelle.entities.Repository;
+import com.sintergica.michelle.repositories.GHRepositoryRepository;
 import lombok.AllArgsConstructor;
 import org.kohsuke.github.GHRepository;
 import org.springframework.stereotype.Service;

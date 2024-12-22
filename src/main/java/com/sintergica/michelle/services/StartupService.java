@@ -1,4 +1,4 @@
-package com.sintergica.lightner_back.services;
+package com.sintergica.michelle.services;
 
 import org.kohsuke.github.GitHub;
 import org.kohsuke.github.GitHubBuilder;

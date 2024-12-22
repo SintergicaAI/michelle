@@ -1,4 +1,4 @@
-package com.sintergica.lightner_back.configuration;
+package com.sintergica.michelle.configuration;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

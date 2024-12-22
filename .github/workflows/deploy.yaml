@@ -34,12 +34,12 @@ on:
         type: number
         description: Puerto para exponer el servicio
         required: true
-        default: 42001
+        default: 41000
       internal_port:
         type: number
         description: Puerto interno donde corre el servicio
         required: true
-        default: 42001
+        default: 41000
       deploy_digital_ocean:
         type: boolean
         description: Desplegar en Digital Ocean

@@ -1,13 +1,13 @@
-package com.sintergica.lightner_back;
+package com.sintergica.michelle;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LightnerBackApplication {
+public class MichelleApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LightnerBackApplication.class, args);
+		SpringApplication.run(MichelleApplication.class, args);
 	}
 
 }

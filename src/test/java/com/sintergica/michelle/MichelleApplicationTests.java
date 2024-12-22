@@ -1,10 +1,10 @@
-package com.sintergica.lightner_back;
+package com.sintergica.michelle;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LightnerBackApplicationTests {
+class MichelleApplicationTests {
 
 	@Test
 	void contextLoads() {

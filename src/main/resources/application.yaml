@@ -3,7 +3,7 @@ spring:
     name: michelle
 
 server:
-  port: 42001
+  port: 41000
 
 githubconfig:
   login: ${GITHUB_LOGIN}
