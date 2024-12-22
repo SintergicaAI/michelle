@@ -5,9 +5,6 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class Package {
-	private int id;
-	private String name;
-	private String package_type;
+public class Container {
 	private List<String> tags;
 }

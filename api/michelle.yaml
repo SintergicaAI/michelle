@@ -32,6 +32,12 @@ components:
           description: Tipo de paquete
           type: string
           example: container
+        tags:
+          type: array
+          description: Versiones activas del paquete
+          items:
+            type: string
+            example: 0.0.5
     package_list:
       description: Lista de paquetes
       type: array
@@ -41,6 +47,7 @@ components:
           - $ref: "#/components/schemas/package"
           - $ref: "#/components/schemas/package"
           - $ref: "#/components/schemas/package"
+
     repository:
       description: Repositorio de codigo en la organizacion de GitHub
       type: object
@@ -52,7 +59,12 @@ components:
         fullName:
           description: Nombre completo del repositorio. Para fines administrativos
           type: string
-          example: SintergicaAI/cotizador-app
+          example: SintergicaAI/anton
+        url:
+          description: URL de la pagina del repositorio
+          type: string
+          example: https://github.com/SintergicaAI/anton
+
     repository_list:
       description: Lista de repositorios
       type: array
@@ -62,6 +74,7 @@ components:
           - $ref: "#/components/schemas/repository"
           - $ref: "#/components/schemas/repository"
           - $ref: "#/components/schemas/repository"
+
 paths:
   /package:
     summary: Catalogo de paquetes
@@ -103,5 +116,32 @@ paths:
           description: No hay repositorios disponibles
         404:
           description: No se pudieron recuperar los repositorios de la organizacion
+        500:
+          $ref: "#/components/responses/500"
+  /repository/{name}:
+    summary: Endpoint que identifica un repositorio por su nombre corto
+    description: Endpoint para administrar las propiedades de un repositorio identificado por su nombre corto
+    post:
+      summary: Crea un repositorio identificado por su nombre corto
+      description: Crea un nuevo repositorio identificado por su nombre cotro
+      tags:
+        - Repository
+      parameters:
+        - name: name
+          description: Nombre del nuevo repositorio a crear
+          schema:
+            type: string
+            example: proyecto_front
+          required: true
+          in: path
+      responses:
+        201:
+          description: Se ha creado el nuevo repositorio
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/repository"
+        409:
+          description: Ya existe un repositorio con ese nombre
         500:
           $ref: "#/components/responses/500"
