@@ -12,12 +12,12 @@ on:
         type: number
         description: Puerto donde el servicio será expuesto a la red
         required: false
-        default: 81
+        default: 41000
       internal_port:
         type: number
         description: Puerto donde corre el servicio dentro del contenedor
         required: false
-        default: 8000
+        default: 41000
       digital_ocean_deploy:
         type: boolean
         description: Desplegar en Digital Ocean al finalizar la construccion
