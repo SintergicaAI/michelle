@@ -1,0 +1,31 @@
+name: michelle
+
+services:
+  - name: michelle
+    image:
+      registry_type: GHCR
+      registry: sintergicaai
+      repository: michelle
+      tag: ${IMAGE_TAG}
+      instance_size_slug: apps-s-1vcpu-1gb-fixed
+      instance_count: 1
+      registry_credentials: ${GH_CREDENTIALS}
+      autoscaling:
+        min_instance_count: 1
+        max_instance_count: 1
+    http_port: ${HTTP_PORT}
+    envs:
+      - key: GITHUB_OAUTH
+        value: ${GH_TOKEN}
+        type: SECRET
+        scope: RUN_TIME
+
+      - key: GITHUB_LOGIN
+        value: SintergicaAI
+        type: GENERAL
+        scope: RUN_TIME
+
+      - key: GITHUB_URL
+        value: https://api.github.com
+        type: GENERAL
+        scope: RUN_TIME
