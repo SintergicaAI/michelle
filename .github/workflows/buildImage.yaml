@@ -30,10 +30,6 @@ on:
         default: false
 
 env:
-  DB_URL: ${{ secrets.DB_URL }}
-  DB_URL_DEV: ${{ secrets.DB_URL_DEV }}
-  DB_USERNAME: ${{ secrets.DB_USERNAME }}
-  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
   IMAGE_NAME: ghcr.io/sintergicaai/michelle
 
 jobs:
