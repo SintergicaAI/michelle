@@ -70,12 +70,11 @@ jobs:
           push: true
   deploy:
     needs: build_image
-    if: ${{ inputs.anton_deploy || inputs.digital_ocean_deploy }}
+    if: ${{ inputs.digital_ocean_deploy }}
     uses: ./.github/workflows/deploy.yaml
     with:
       external_port: ${{ inputs.external_port }}
       internal_port: ${{ inputs.internal_port }}
       tag: ${{ github.event.inputs.tag }}
-      deploy_on_anton: ${{ inputs.anton_deploy }}
       deploy_digital_ocean: ${{ inputs.digital_ocean_deploy }}
     secrets: inherit
