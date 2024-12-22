@@ -1,7 +1,7 @@
 package com.sintergica.lightner_back.controllers;
 
-import com.sintergica.lightner_back.entities.Repository;
-import com.sintergica.lightner_back.services.RepositoryService;
+import com.sintergica.lightner_back.entities.Package;
+import com.sintergica.lightner_back.services.PackageService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +15,19 @@ import java.util.List;
 @AllArgsConstructor
 @CrossOrigin
 @RestController
-@RequestMapping("/repository")
-public class RepositoryController {
-	private final RepositoryService repositoryService;
+@RequestMapping("/package")
+public class PackageController {
+	private final PackageService packageService;
 
-	@GetMapping()
-	public ResponseEntity<?> getRepositories() {
-		List<Repository> repositories = repositoryService.getRepositories();
-		if (repositories == null) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+	@GetMapping
+	public ResponseEntity<?> getPackages() {
+		List<Package> packages = packageService.getPackages();
+		if (packages == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		if (repositories.isEmpty()) {
+		if (packages.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return ResponseEntity.ok(repositories);
+		return ResponseEntity.ok(packages);
 	}
 }

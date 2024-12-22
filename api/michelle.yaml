@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  title: Michelle
+  description: Michelle es un servicio que administra las operaciones para la organización de SintergicaAI
+  version: 0.0.1
+servers:
+  - url: 'https'
+    description: Aun no listo
+components:
+  responses:
+    500:
+      description: Ha ocurrido un error interno del servidor y no se ha podido crear una respuesta apropiada
+  schemas:
+    package:
+      description: Paquete de uno u otro tipo dentro de la organizacion
+      type: object
+      required: [ id, name, package_type ]
+      properties:
+        id:
+          description: Id del paquete de acuerdo a su tipo
+          type: integer
+          format: int32
+          example: 7446645
+        name:
+          description: Nombre corto del paquete. Solo para fines expositivos
+          type: string
+          example: lightner_back
+        package_type:
+          description: Tipo de paquete
+          type: string
+          example: container
+    package_list:
+      description: Lista de paquetes
+      type: array
+      items:
+        type: object
+        allOf:
+          - $ref: "#/components/schemas/package"
+          - $ref: "#/components/schemas/package"
+          - $ref: "#/components/schemas/package"
+    repository:
+      description: Repositorio de codigo en la organizacion de GitHub
+      type: object
+      properties:
+        name:
+          description: Nombre corto del repositorio. Solo para fines expositivos
+          type: string
+          example: anton
+        fullName:
+          description: Nombre completo del repositorio. Para fines administrativos
+          type: string
+          example: SintergicaAI/cotizador-app
+    repository_list:
+      description: Lista de repositorios
+      type: array
+      items:
+        type: object
+        allOf:
+          - $ref: "#/components/schemas/repository"
+          - $ref: "#/components/schemas/repository"
+          - $ref: "#/components/schemas/repository"
+paths:
+  /package:
+    summary: Catalogo de paquetes
+    description: Endpoint para administrar el catalogo de paquetes de diversos tipos dentro de la organizacion
+    get:
+      summary: Retorna los paquetes registrados en la organizacion
+      description: Retorna una lista con los paquetes disponibles dentro de la organizacion para su uso
+      tags:
+        - Package
+      responses:
+        200:
+          description: Se ha retornado la informacion de los paquetes disponibles
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/package_list"
+        204:
+          description: No hay paquetes disponibles
+        404:
+          description: No se pudieron recuperar los paquetes de la organizacion
+        500:
+          $ref: "#/components/responses/500"
+  /repository:
+    summary: Catalogo de repositorios
+    description: Endpoint para administrar el catalogo de repositorios de la organizacion
+    get:
+      summary: Retorna los repositorios
+      description: Retorna una lista con los repositorios de la organizacion en GitHub
+      tags:
+        - Repository
+      responses:
+        200:
+          description: Se ha retornado la informacion de los repositorios
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/repository_list"
+        204:
+          description: No hay repositorios disponibles
+        404:
+          description: No se pudieron recuperar los repositorios de la organizacion
+        500:
+          $ref: "#/components/responses/500"
