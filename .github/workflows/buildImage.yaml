@@ -70,7 +70,7 @@ jobs:
           push: true
   deploy:
     needs: build_image
-    if: ${{ inputs.digital_ocean_deploy }}
+    if: ${{ inputs.digital_ocean_deploy == 'true' }}
     uses: ./.github/workflows/deploy.yaml
     with:
       external_port: ${{ inputs.external_port }}
