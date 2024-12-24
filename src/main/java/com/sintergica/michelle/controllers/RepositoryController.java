@@ -36,7 +36,7 @@ public class RepositoryController {
 
 	@PostMapping("/{repoName}")
 	public ResponseEntity<?> createRepository(@PathVariable("repoName") String name) {
-		if (repositoryService.getRepositoryByName(name) == null) {
+		if (repositoryService.getRepositoryByName(name) != null) {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<>(repositoryService.createRepository(name), HttpStatus.CREATED);

@@ -70,11 +70,11 @@ jobs:
           push: true
   deploy:
     needs: build_image
-    if: ${{ github.event.inputs.digital_ocean_deploy }}
+    if: ${{ inputs.digital_ocean_deploy }}
     uses: ./.github/workflows/deploy.yaml
     with:
-      external_port: ${{ github.event.inputs.external_port }}
-      internal_port: ${{ github.event.inputs.internal_port }}
-      tag: ${{ github.event.inputs.tag }}
-      deploy_digital_ocean: ${{ github.event.inputs.digital_ocean_deploy }}
+      external_port: ${{ inputs.external_port }}
+      internal_port: ${{ inputs.internal_port }}
+      tag: ${{ inputs.tag }}
+      deploy_digital_ocean: ${{ inputs.digital_ocean_deploy }}
     secrets: inherit

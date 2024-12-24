@@ -38,7 +38,11 @@ public class RepositoryService {
 
 	public Repository getRepositoryByName(String name) {
 		try {
-			return new Repository(ghRepository.findByName(name));
+			GHRepository byName = ghRepository.findByName(name);
+			if (byName == null) {
+				return null;
+			}
+			return new Repository(byName);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
