@@ -78,8 +78,8 @@ jobs:
     if: ${{ inputs.digital_ocean_deploy }}
     uses: ./.github/workflows/deploy.yaml
     with:
-      external_port: ${{ github.event.inputs.external_port }}
-      internal_port: ${{ github.event.inputs.internal_port }}
+      external_port: ${{ fromJSON(inputs.external_port) }}
+      internal_port: ${{ fromJSON(inputs.internal_port) }}
       tag: ${{ inputs.tag }}
-      deploy_digital_ocean: ${{ github.event.inputs.digital_ocean_deploy }}
+      deploy_digital_ocean: ${{ fromJSON(inputs.digital_ocean_deploy) }}
     secrets: inherit
