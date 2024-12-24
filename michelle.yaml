@@ -129,11 +129,11 @@ paths:
       parameters:
         - name: name
           description: Nombre del nuevo repositorio a crear
+          in: path
           schema:
             type: string
             example: proyecto_front
           required: true
-          in: path
       responses:
         '201':
           description: Se ha creado el nuevo repositorio
@@ -143,5 +143,25 @@ paths:
                 $ref: '#/components/schemas/repository'
         '409':
           description: Ya existe un repositorio con ese nombre
+        '500':
+          $ref: '#/components/responses/500'
+    delete:
+      summary: Endpoint para eliminar un repositorio
+      description: Endpoint para eliminar un repositorio identificado por su nombre corto
+      tags:
+        - Repository
+      parameters:
+        - name: name
+          description: Nombre del repositorio a eliminar
+          in: path
+          schema:
+            type: string
+            example: proyecto_front
+          required: true
+      responses:
+        '200':
+          description: Se ha eliminado el repositorio
+        '404':
+          description: El repositorio no existia en la organizacion
         '500':
           $ref: '#/components/responses/500'
