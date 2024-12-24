@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,5 +40,16 @@ public class RepositoryController {
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 		return new ResponseEntity<>(repositoryService.createRepository(name), HttpStatus.CREATED);
+	}
+
+	@DeleteMapping("{repoName}")
+	public ResponseEntity<?> deleteRepository(@PathVariable("repoName") String name) {
+		if (repositoryService.getRepositoryByName(name) == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		if (repositoryService.deleteRepository(name)) {
+			return ResponseEntity.ok().build();
+		}
+		return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

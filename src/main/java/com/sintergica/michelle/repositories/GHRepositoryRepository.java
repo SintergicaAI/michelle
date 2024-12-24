@@ -1,9 +1,8 @@
 package com.sintergica.michelle.repositories;
 
-import com.sintergica.michelle.configuration.GithubConfig;
 import com.sintergica.michelle.services.StartupService;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.kohsuke.github.GHOrganization;
 import org.kohsuke.github.GHRepository;
 import org.springframework.stereotype.Component;
 
@@ -13,15 +12,23 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class GHRepositoryRepository {
+	private final GHOrganization organization = StartupService.organization;
 	public List<GHRepository> findAll() throws IOException {
-		return StartupService.organization.getRepositories().values().stream().toList();
+		return organization.getRepositories().values().stream().toList();
 	}
 
 	public GHRepository findByName(String name) throws IOException {
-		return StartupService.organization.getRepository(name);
+		return organization.getRepository(name);
 	}
 
 	public GHRepository createRepository(String name) throws IOException {
-		return StartupService.organization.createRepository(name).create();
+		return organization.createRepository(name).create();
+	}
+
+	public void deleteRepository(String name) throws IOException {
+		GHRepository repository = organization.getRepository(name);
+		if (repository != null) {
+			repository.delete();
+		}
 	}
 }

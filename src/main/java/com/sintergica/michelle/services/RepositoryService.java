@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -43,5 +42,14 @@ public class RepositoryService {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public boolean deleteRepository(String name) {
+		try {
+			ghRepository.deleteRepository(name);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return getRepositoryByName(name) == null;
 	}
 }
