@@ -12,21 +12,23 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class GHRepositoryRepository {
-	private final GHOrganization organization = StartupService.organization;
+	private GHOrganization organization() {
+		return StartupService.organization;
+	}
 	public List<GHRepository> findAll() throws IOException {
-		return organization.getRepositories().values().stream().toList();
+		return organization().getRepositories().values().stream().toList();
 	}
 
 	public GHRepository findByName(String name) throws IOException {
-		return organization.getRepository(name);
+		return organization().getRepository(name);
 	}
 
 	public GHRepository createRepository(String name) throws IOException {
-		return organization.createRepository(name).create();
+		return organization().createRepository(name).create();
 	}
 
 	public void deleteRepository(String name) throws IOException {
-		GHRepository repository = organization.getRepository(name);
+		GHRepository repository = organization().getRepository(name);
 		if (repository != null) {
 			repository.delete();
 		}
