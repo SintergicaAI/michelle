@@ -32,6 +32,11 @@ jobs:
     runs-on:
       ubuntu-latest
     steps:
+      - name: Testing workflow inputs
+        run: |
+          echo ${{ inputs.digital_ocean_deploy }}
+          echo ${{ github.event.inputs.digital_ocean_deploy }}
+
       - name: Checkout code
         uses: actions/checkout@v2
 
