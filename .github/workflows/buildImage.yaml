@@ -34,8 +34,8 @@ jobs:
     steps:
       - name: Testing workflow inputs
         run: |
-          echo ${{ inputs.digital_ocean_deploy }}
-          echo ${{ github.event.inputs.digital_ocean_deploy }}
+          echo ${{ inputs.tag }}
+          echo ${{ github.event.inputs.tag }}
 
       - name: Checkout code
         uses: actions/checkout@v2
@@ -78,8 +78,8 @@ jobs:
     if: ${{ inputs.digital_ocean_deploy }}
     uses: ./.github/workflows/deploy.yaml
     with:
-      external_port: ${{ inputs.external_port }}
-      internal_port: ${{ inputs.internal_port }}
+      external_port: ${{ github.event.inputs.external_port }}
+      internal_port: ${{ github.event.inputs.internal_port }}
       tag: ${{ inputs.tag }}
-      deploy_digital_ocean: ${{ inputs.digital_ocean_deploy }}
+      deploy_digital_ocean: ${{ github.event.inputs.digital_ocean_deploy }}
     secrets: inherit
