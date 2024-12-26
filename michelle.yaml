@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Michelle
   description: Michelle es un servicio que administra las operaciones para la organización de SintergicaAI
-  version: 0.0.1
+  version: 0.0.5
   contact:
     name: Edson Manuel Carballo Vera
     email: edson.vera@sintergica.ai
@@ -75,6 +75,29 @@ components:
           - $ref: '#/components/schemas/repository'
           - $ref: '#/components/schemas/repository'
           - $ref: '#/components/schemas/repository'
+    server:
+      description: 'Registro de un servidor de la organizacion, fisico o virtual'
+      type: object
+      required:
+        - address
+      properties:
+        serverName:
+          description: Nombre del servidor. Opcional
+          type: string
+          example: openwebui-droplet
+        address:
+          description: Direccion del servidor
+          type: string
+          example: 24.199.72.114
+    server_list:
+      description: Lista de servidores
+      type: array
+      items:
+        type: object
+        allOf:
+          - $ref: '#/components/schemas/server'
+          - $ref: '#/components/schemas/server'
+          - $ref: '#/components/schemas/server'
 paths:
   /package:
     summary: Catalogo de paquetes
@@ -163,5 +186,69 @@ paths:
           description: Se ha eliminado el repositorio
         '404':
           description: El repositorio no existia en la organizacion
+        '500':
+          $ref: '#/components/responses/500'
+  /server:
+    summary: Catalogo de servidores
+    description: Catalogo de servidores
+    get:
+      summary: Retorna los servidores registrados
+      description: Retorna los servidores registrados
+      tags:
+        - Server
+      responses:
+        '200':
+          description: Se ha retornado la informacion de los servidores registrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/server_list'
+        '204':
+          description: No hay servidores registrados
+        '500':
+          $ref: '#/components/responses/500'
+    post:
+      summary: Registra un nuevo servidor
+      description: Registra la informacion de un nuevo servidor
+      tags:
+        - Server
+      requestBody:
+        description: Informacion del nuevo servidor
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/server'
+      responses:
+        '201':
+          description: Se ha registrado el nuevo servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/server'
+        '409':
+          description: El nombre del servidor ya se encuentra registrado
+        '500':
+          $ref: '#/components/responses/500'
+  '/server/{serverName}':
+    summary: Endpoint para administrar un servidor
+    description: Endpoint para administrar la informacion de un servidor identificado por su nombre
+    delete:
+      summary: Elimina un servidor
+      description: Elimina un servidor identificado por su nombre
+      tags:
+        - Server
+      parameters:
+        - name: serverName
+          description: Nombre del servidor a eliminar
+          in: path
+          schema:
+            type: string
+            example: openwebui-droplet
+          required: true
+      responses:
+        '200':
+          description: Se ha eliminado el servidor
+        '404':
+          description: No se ha encontrado el servidor
         '500':
           $ref: '#/components/responses/500'
