@@ -51,11 +51,13 @@ public class GithubHttpClient {
 	}
 
 	public List<Package> extractPackagesFromResponse(Response response) throws IOException {
-		return packageJsonAdapter.fromJson(response.body().source());
+		List<Package> packages = packageJsonAdapter.fromJson(response.body().source());
+		response.close();
+		return packages;
 	}
 
 	public List<String> extractTagsFromResponse(Response response) throws IOException {
-		return tagJsonAdapter.fromJson(response.body().source())
+		List<String> tags = tagJsonAdapter.fromJson(response.body().source())
 			.stream()
 			.flatMap(tag -> Optional.ofNullable(tag.getMetadata())
 				.map(Metadata::getContainer)
@@ -65,5 +67,7 @@ public class GithubHttpClient {
 			.sorted(Comparator.naturalOrder())
 			.toList()
 			.reversed();
+		response.close();
+		return tags;
 	}
 }
