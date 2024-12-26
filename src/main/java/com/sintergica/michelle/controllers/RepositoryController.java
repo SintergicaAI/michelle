@@ -3,6 +3,7 @@ package com.sintergica.michelle.controllers;
 import com.sintergica.michelle.entities.Repository;
 import com.sintergica.michelle.services.RepositoryService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@AllArgsConstructor
 @CrossOrigin
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/repository")
 public class RepositoryController {
 	private final RepositoryService repositoryService;
