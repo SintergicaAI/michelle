@@ -2,7 +2,6 @@ package com.sintergica.michelle.controllers;
 
 import com.sintergica.michelle.entities.Repository;
 import com.sintergica.michelle.services.RepositoryService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
