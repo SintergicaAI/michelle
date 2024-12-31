@@ -29,3 +29,33 @@ services:
         value: https://api.github.com
         type: GENERAL
         scope: RUN_TIME
+
+      - key: DB_URL
+        value: ${DB_URL}
+        type: SECRET
+        scope: RUN_TIME
+
+      - key: DB_USERNAME
+        value: ${DB_USERNAME}
+        type: SECRET
+        scope: RUN_TIME
+
+      - key: DB_PASSWORD
+        value: ${DB_PASSWORD}
+        type: SECRET
+        scope: RUN_TIME
+
+      - key: SSH_KEY_FINGERPRINT
+        value: ${SS_KEY_FINGERPRINT}
+        type: SECRET
+        scope: RUN_TIME
+
+      - key: SSH_KEY_ID
+        value: ${SSH_KEY_ID}
+        type: SECRET
+        scope: RUN_TIME
+
+      - key: SSH_KEY_ID
+        value: mainKey
+        type: GENERAL
+        scope: RUN_TIME

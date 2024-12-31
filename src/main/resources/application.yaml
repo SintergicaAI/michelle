@@ -22,5 +22,14 @@ server:
 
 githubconfig:
   login: ${GITHUB_LOGIN}
-  url: ${GITHUB_URL}
+  url: https://api.github.com
   token: ${GITHUB_OAUTH}
+
+digitalocean:
+  token: ${DO_TOKEN}
+  sshKeyId: ${SSH_KEY_ID}
+  sshKeyName: ${SSH_KEY_NAME}
+  sshKeyFingerprint: ${SSH_KEY_FINGERPRINT}
+  antonCommand: |
+    #!/bin/bash
+    docker run 

@@ -1,7 +1,9 @@
 package com.sintergica.michelle.controllers;
 
 
+import com.myjeeva.digitalocean.pojo.Droplet;
 import com.sintergica.michelle.entities.Server;
+import com.sintergica.michelle.services.DigitalOceanService;
 import com.sintergica.michelle.services.ServerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ import java.util.List;
 @RequestMapping("/server")
 public class ServerController {
 	private final ServerService serverService;
+	private final DigitalOceanService digitalOceanService;
 
 	@GetMapping
 	public ResponseEntity<?> getAllServers() {
@@ -44,9 +47,9 @@ public class ServerController {
 	@DeleteMapping("/{serverName}")
 	public ResponseEntity<?> deleteServer(@PathVariable("serverName") String serverName) {
 		if (serverService.deleteByName(serverName)) {
-    		return new ResponseEntity<>(HttpStatus.OK);
-    	} else {
-    		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    	}
+			return new ResponseEntity<>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 }
