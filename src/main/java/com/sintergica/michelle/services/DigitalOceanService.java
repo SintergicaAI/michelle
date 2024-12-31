@@ -68,7 +68,7 @@ public class DigitalOceanService {
 
 		Key key = new Key(config.getSshKeyName());
 		key.setFingerprint(config.getSshKeyFingerprint());
-		key.setId(config.getSshKeyId());
+		key.setId(Integer.valueOf(config.getSshKeyId()));
 
 		Droplet newDroplet = new Droplet();
 		newDroplet.setName(name);

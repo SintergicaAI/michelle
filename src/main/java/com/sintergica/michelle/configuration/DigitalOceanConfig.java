@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "digitalocean")
 public class DigitalOceanConfig {
 	private String token;
-	private int sshKeyId;
+	private String sshKeyId;
 	private String sshKeyName;
 	private String sshKeyFingerprint;
 }
