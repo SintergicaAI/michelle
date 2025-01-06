@@ -5,17 +5,35 @@ import com.sintergica.michelle.repositories.ServerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ServerService {
 	private final ServerRepository serverRepository;
+	private static final int TIMEOUT_MILLS = 500;
+	private static final int ANTON_PORT = 42000;
 
 	private boolean serverExists(Server newServer) {
 		return serverRepository.findByServerName(newServer.getServerName())
 			.isPresent();
+	}
+
+	private void checkServerAnton(Server server) {
+		try (Socket socket = new Socket()) {
+			socket.setReuseAddress(true);
+			try {
+				socket.connect(new InetSocketAddress(server.getAddress(), ANTON_PORT), TIMEOUT_MILLS);
+				server.setHasAnton(true);
+			} catch (IOException e) {
+				server.setHasAnton(false);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public boolean registerIfNew(Server newServer) {
@@ -28,7 +46,9 @@ public class ServerService {
 	}
 
 	public List<Server> getServers() {
-		return serverRepository.getAll();
+		List<Server> servers = serverRepository.getAll();
+		servers.forEach(this::checkServerAnton);
+		return servers;
 	}
 
 	public Server getByName(String serverName) {

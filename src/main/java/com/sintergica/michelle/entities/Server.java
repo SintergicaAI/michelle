@@ -21,9 +21,11 @@ public class Server {
 	@Column(name = "id", nullable = false)
 	private Long id;
 
-	@Column(name = "serverName")
+	@Column(name = "server_name")
 	private String serverName;
 
 	@Column(name = "address", nullable = false)
 	private String address;
+
+	private boolean hasAnton;
 }
