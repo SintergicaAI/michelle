@@ -55,7 +55,7 @@ services:
         type: SECRET
         scope: RUN_TIME
 
-      - key: SSH_KEY_ID
+      - key: SSH_KEY_NAME
         value: mainKey
         type: GENERAL
         scope: RUN_TIME

@@ -1,6 +1,7 @@
 package com.sintergica.michelle.services;
 
 import com.sintergica.michelle.entities.Server;
+import com.sintergica.michelle.repositories.AntonServiceRepository;
 import com.sintergica.michelle.repositories.ServerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ServerService {
 	private final ServerRepository serverRepository;
+	private final AntonServiceRepository serviceRepository;
 	private static final int TIMEOUT_MILLS = 500;
 	private static final int ANTON_PORT = 42000;
 
@@ -47,7 +49,12 @@ public class ServerService {
 
 	public List<Server> getServers() {
 		List<Server> servers = serverRepository.getAll();
-		servers.forEach(this::checkServerAnton);
+		servers.forEach(server -> {
+			checkServerAnton(server);
+			if (server.isHasAnton()) {
+				server.setServices(serviceRepository.getServices(server.getAddress()));
+			}
+		});
 		return servers;
 	}
 

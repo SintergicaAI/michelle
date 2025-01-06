@@ -16,15 +16,15 @@ import java.util.List;
 public class GithubPackageRepository {
 
 	private static final String PACKAGE_TYPE_CONTAINER = "container";
-	private final GithubHttpClient githubHttpClient;
+	private final GithubHttpClient client;
 
 	private String buildPackageUrl() {
-		return githubHttpClient.getBaseUrl()
+		return client.getBaseUrl()
 			+ "/packages?package_type=" + PACKAGE_TYPE_CONTAINER;
 	}
 
 	private String buildVersionUrl(String packageName, int page) {
-		return githubHttpClient.getBaseUrl()
+		return client.getBaseUrl()
 			+ "/packages/" + PACKAGE_TYPE_CONTAINER + "/" + packageName
 			+ "/versions?per_page=100"
 			+ "&page=" + page;
@@ -32,14 +32,14 @@ public class GithubPackageRepository {
 
 	public List<Package> getPackages() {
 		try {
-			
-			Response response = githubHttpClient.executeRequest(buildPackageUrl());
+
+			Response response = client.executeRequest(buildPackageUrl());
 
 			if (response == null) {
 				return Collections.emptyList();
 			}
 
-			List<Package> packages = githubHttpClient.extractPackagesFromResponse(response);
+			List<Package> packages = client.extractPackagesFromResponse(response);
 			packages.forEach(this::addTagsToPackage);
 			return packages;
 		} catch (IOException e) {
@@ -49,9 +49,9 @@ public class GithubPackageRepository {
 
 	public List<String> getPackageVersions(String packageName, int page) {
 		try {
-			Response response = githubHttpClient.executeRequest(buildVersionUrl(packageName, page));
+			Response response = client.executeRequest(buildVersionUrl(packageName, page));
 			return response != null
-				? githubHttpClient.extractTagsFromResponse(response)
+				? client.extractTagsFromResponse(response)
 				: Collections.emptyList();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
