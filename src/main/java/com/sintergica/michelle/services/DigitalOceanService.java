@@ -97,8 +97,4 @@ public class DigitalOceanService {
 			throw new RuntimeException(e);
 		}
 	}
-
-	public boolean installAntonOnDroplet() {
-		return false;
-	}
 }

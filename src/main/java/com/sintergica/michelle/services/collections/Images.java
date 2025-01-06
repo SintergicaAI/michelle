@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum Images {
 	DEBIAN_12x64("168639140"),
-	DOCKER_UBUNTU("173563496");
+	DOCKER_UBUNTU("173563496"),
+	UBUNTU_ANTON("174991984");
 
 	private final String id;
 
