@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Michelle
   description: Michelle es un servicio que administra las operaciones para la organización de SintergicaAI
-  version: 0.0.5
+  version: 0.1.0
   contact:
     name: Edson Manuel Carballo Vera
     email: edson.vera@sintergica.ai
@@ -75,10 +75,42 @@ components:
           - $ref: "#/components/schemas/repository"
           - $ref: "#/components/schemas/repository"
 
+    service:
+      description: Instancia de un paquete corriendo en un servidor
+      type: object
+      required: [ name, image, tag, status ]
+      properties:
+        name:
+          description: Nombre del servicio
+          type: string
+          example: turing
+        image:
+          description: Imagen que corre actualmente el servicio
+          type: string
+          example: ghcr.io/sintergicaai/turing
+        tag:
+          description: Version del paquete que corre el servicio
+          type: string
+          example: 0.0.2
+        status:
+          description: Estado actual del servicio
+          type: string
+          example: running
+
+    service_list:
+      description: Lista de servicios
+      type: array
+      items:
+        type: object
+        allOf:
+          - $ref: "#/components/schemas/service"
+          - $ref: "#/components/schemas/service"
+          - $ref: "#/components/schemas/service"
+
     server:
       description: Registro de un servidor de la organizacion, fisico o virtual
       type: object
-      required: [ address ]
+      required: [ serverName, address, hasAnton ]
       properties:
         serverName:
           description: Nombre del servidor. Opcional
@@ -88,6 +120,15 @@ components:
           description: Direccion del servidor
           type: string
           example: 24.199.72.114
+        hasAnton:
+          description: Booleano que indica si anton se encuentra corriendo en el servidor
+          type: boolean
+          example: true
+        services:
+          description: Lista de servicios corriendo actualmente en el servidor
+          type: array
+          items:
+            $ref: "#/components/schemas/service_list"
 
     server_list:
       description: Lista de servidores
