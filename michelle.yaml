@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Michelle
   description: Michelle es un servicio que administra las operaciones para la organización de SintergicaAI
-  version: 0.1.0
+  version: 0.1.1
   contact:
     name: Edson Manuel Carballo Vera
     email: edson.vera@sintergica.ai
@@ -133,7 +133,11 @@ components:
           description: Lista de servicios corriendo actualmente en el servidor
           type: array
           items:
-            $ref: '#/components/schemas/service_list'
+            type: object
+            allOf:
+              - $ref: '#/components/schemas/service'
+              - $ref: '#/components/schemas/service'
+              - $ref: '#/components/schemas/service'
     server_list:
       description: Lista de servidores
       type: array
