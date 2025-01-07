@@ -1,0 +1,44 @@
+summary: Catalogo de servidores
+description: Catalogo de servidores
+get:
+  summary: Retorna los servidores registrados
+  description: Retorna los servidores registrados
+  tags:
+    - Server
+  security:
+    - basicAuth: [ ]
+  responses:
+    200:
+      description: Se ha retornado la informacion de los servidores registrados
+      content:
+        application/json:
+          schema:
+            $ref: "components.yaml#/components/schemas/server_list"
+    204:
+      description: No hay servidores registrados
+    500:
+      $ref: "components.yaml#/components/responses/500"
+post:
+  summary: Registra un nuevo servidor
+  description: Registra la informacion de un nuevo servidor
+  tags:
+    - Server
+  security:
+    - basicAuth: [ ]
+  requestBody:
+    description: Informacion del nuevo servidor
+    content:
+      application/json:
+        schema:
+          $ref: "components.yaml#/components/schemas/server"
+  responses:
+    201:
+      description: Se ha registrado el nuevo servidor
+      content:
+        application/json:
+          schema:
+            $ref: "components.yaml#/components/schemas/server"
+    409:
+      description: El nombre del servidor ya se encuentra registrado
+    500:
+      $ref: "components.yaml#/components/responses/500"

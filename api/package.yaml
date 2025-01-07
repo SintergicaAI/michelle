@@ -1,0 +1,22 @@
+summary: Catalogo de paquetes
+description: Endpoint para administrar el catalogo de paquetes de diversos tipos dentro de la organizacion
+get:
+  summary: Retorna los paquetes registrados en la organizacion
+  description: Retorna una lista con los paquetes disponibles dentro de la organizacion para su uso
+  tags:
+    - Package
+  security:
+    - basicAuth: [ ]
+  responses:
+    200:
+      description: Se ha retornado la informacion de los paquetes disponibles
+      content:
+        application/json:
+          schema:
+            $ref: "components.yaml#/components/schemas/package_list"
+    204:
+      description: No hay paquetes disponibles
+    404:
+      description: No se pudieron recuperar los paquetes de la organizacion
+    500:
+      $ref: "components.yaml#/components/responses/500"

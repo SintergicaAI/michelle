@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Michelle
   description: Michelle es un servicio que administra las operaciones para la organización de SintergicaAI
-  version: 0.1.1
+  version: 0.1.3
   contact:
     name: Edson Manuel Carballo Vera
     email: edson.vera@sintergica.ai
@@ -12,147 +12,13 @@ servers:
 
 paths:
   /package:
-    summary: Catalogo de paquetes
-    description: Endpoint para administrar el catalogo de paquetes de diversos tipos dentro de la organizacion
-    get:
-      summary: Retorna los paquetes registrados en la organizacion
-      description: Retorna una lista con los paquetes disponibles dentro de la organizacion para su uso
-      tags:
-        - Package
-      security:
-        - basicAuth: [ ]
-      responses:
-        200:
-          description: Se ha retornado la informacion de los paquetes disponibles
-          content:
-            application/json:
-              schema:
-                $ref: "components.yaml#/components/schemas/package_list"
-        204:
-          description: No hay paquetes disponibles
-        404:
-          description: No se pudieron recuperar los paquetes de la organizacion
-        500:
-          $ref: "components.yaml#/components/responses/500"
+    $ref: "package.yaml"
   /repository:
-    summary: Catalogo de repositorios
-    description: Endpoint para administrar el catalogo de repositorios de la organizacion
-    get:
-      summary: Retorna los repositorios
-      description: Retorna una lista con los repositorios de la organizacion en GitHub
-      tags:
-        - Repository
-      security:
-        - basicAuth: [ ]
-      responses:
-        200:
-          description: Se ha retornado la informacion de los repositorios
-          content:
-            application/json:
-              schema:
-                $ref: "components.yaml#/components/schemas/repository_list"
-        204:
-          description: No hay repositorios disponibles
-        404:
-          description: No se pudieron recuperar los repositorios de la organizacion
-        500:
-          $ref: "components.yaml#/components/responses/500"
+    $ref: "repository.yaml"
   /repository/{name}:
-    summary: Endpoint que identifica un repositorio por su nombre corto
-    description: Endpoint para administrar las propiedades de un repositorio identificado por su nombre corto
-    post:
-      summary: Crea un repositorio identificado por su nombre corto
-      description: Crea un nuevo repositorio identificado por su nombre cotro
-      tags:
-        - Repository
-      security:
-        - basicAuth: [ ]
-      parameters:
-        - name: name
-          description: Nombre del nuevo repositorio a crear
-          in: path
-          schema:
-            type: string
-            example: proyecto_front
-          required: true
-      responses:
-        201:
-          description: Se ha creado el nuevo repositorio
-          content:
-            application/json:
-              schema:
-                $ref: "components.yaml#/components/schemas/repository"
-        409:
-          description: Ya existe un repositorio con ese nombre
-        500:
-          $ref: "components.yaml#/components/responses/500"
-    delete:
-      summary: Endpoint para eliminar un repositorio
-      description: Endpoint para eliminar un repositorio identificado por su nombre corto
-      tags:
-        - Repository
-      security:
-        - basicAuth: [ ]
-      parameters:
-        - name: name
-          description: Nombre del repositorio a eliminar
-          in: path
-          schema:
-            type: string
-            example: proyecto_front
-          required: true
-      responses:
-        200:
-          description: Se ha eliminado el repositorio
-        404:
-          description: El repositorio no existia en la organizacion
-        500:
-          $ref: "components.yaml#/components/responses/500"
+    $ref: "repository.name.yaml"
   /server:
-    summary: Catalogo de servidores
-    description: Catalogo de servidores
-    get:
-      summary: Retorna los servidores registrados
-      description: Retorna los servidores registrados
-      tags:
-        - Server
-      security:
-        - basicAuth: [ ]
-      responses:
-        200:
-          description: Se ha retornado la informacion de los servidores registrados
-          content:
-            application/json:
-              schema:
-                $ref: "components.yaml#/components/schemas/server_list"
-        204:
-          description: No hay servidores registrados
-        500:
-          $ref: "components.yaml#/components/responses/500"
-    post:
-      summary: Registra un nuevo servidor
-      description: Registra la informacion de un nuevo servidor
-      tags:
-        - Server
-      security:
-        - basicAuth: [ ]
-      requestBody:
-        description: Informacion del nuevo servidor
-        content:
-          application/json:
-            schema:
-              $ref: "components.yaml#/components/schemas/server"
-      responses:
-        201:
-          description: Se ha registrado el nuevo servidor
-          content:
-            application/json:
-              schema:
-                $ref: "components.yaml#/components/schemas/server"
-        409:
-          description: El nombre del servidor ya se encuentra registrado
-        500:
-          $ref: "components.yaml#/components/responses/500"
+    $ref: "server.yaml"
   /server/{serverName}:
     summary: Endpoint para administrar un servidor
     description: Endpoint para administrar la informacion de un servidor identificado por su nombre
