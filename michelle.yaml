@@ -2,7 +2,7 @@ openapi: 3.0.0
 info:
   title: Michelle
   description: Michelle es un servicio que administra las operaciones para la organización de SintergicaAI
-  version: 0.1.1
+  version: 0.1.3
   contact:
     name: Edson Manuel Carballo Vera
     email: edson.vera@sintergica.ai
@@ -64,7 +64,7 @@ paths:
         '404':
           description: No se pudieron recuperar los paquetes de la organizacion
         '500':
-          $ref: '#/paths/~1server/get/responses/500'
+          $ref: '#/paths/~1server~1%7BserverName%7D/delete/responses/500'
   /repository:
     summary: Catalogo de repositorios
     description: Endpoint para administrar el catalogo de repositorios de la organizacion
@@ -94,7 +94,7 @@ paths:
         '404':
           description: No se pudieron recuperar los repositorios de la organizacion
         '500':
-          $ref: '#/paths/~1server/get/responses/500'
+          $ref: '#/paths/~1server~1%7BserverName%7D/delete/responses/500'
   '/repository/{name}':
     summary: Endpoint que identifica un repositorio por su nombre corto
     description: Endpoint para administrar las propiedades de un repositorio identificado por su nombre corto
@@ -137,7 +137,7 @@ paths:
         '409':
           description: Ya existe un repositorio con ese nombre
         '500':
-          $ref: '#/paths/~1server/get/responses/500'
+          $ref: '#/paths/~1server~1%7BserverName%7D/delete/responses/500'
     delete:
       summary: Endpoint para eliminar un repositorio
       description: Endpoint para eliminar un repositorio identificado por su nombre corto
@@ -159,7 +159,7 @@ paths:
         '404':
           description: El repositorio no existia en la organizacion
         '500':
-          $ref: '#/paths/~1server/get/responses/500'
+          $ref: '#/paths/~1server~1%7BserverName%7D/delete/responses/500'
   /server:
     summary: Catalogo de servidores
     description: Catalogo de servidores
@@ -187,7 +187,7 @@ paths:
         '204':
           description: No hay servidores registrados
         '500':
-          description: Ha ocurrido un error interno del servidor y no se ha podido crear una respuesta apropiada
+          $ref: '#/paths/~1server~1%7BserverName%7D/delete/responses/500'
     post:
       summary: Registra un nuevo servidor
       description: Registra la informacion de un nuevo servidor
@@ -269,7 +269,7 @@ paths:
         '409':
           description: El nombre del servidor ya se encuentra registrado
         '500':
-          $ref: '#/paths/~1server/get/responses/500'
+          $ref: '#/paths/~1server~1%7BserverName%7D/delete/responses/500'
   '/server/{serverName}':
     summary: Endpoint para administrar un servidor
     description: Endpoint para administrar la informacion de un servidor identificado por su nombre
@@ -294,4 +294,4 @@ paths:
         '404':
           description: No se ha encontrado el servidor
         '500':
-          $ref: '#/paths/~1server/get/responses/500'
+          description: Ha ocurrido un error interno del servidor y no se ha podido crear una respuesta apropiada
