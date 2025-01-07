@@ -1,5 +1,6 @@
 package com.sintergica.michelle.repositories;
 
+import com.sintergica.michelle.configuration.Logger;
 import com.sintergica.michelle.entities.Package;
 import com.sintergica.michelle.services.GithubHttpClient;
 import lombok.AllArgsConstructor;
@@ -14,9 +15,9 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class GithubPackageRepository {
-
 	private static final String PACKAGE_TYPE_CONTAINER = "container";
 	private final GithubHttpClient client;
+	private final Logger logger;
 
 	private String buildPackageUrl() {
 		return client.getBaseUrl()
@@ -43,7 +44,8 @@ public class GithubPackageRepository {
 			packages.forEach(this::addTagsToPackage);
 			return packages;
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			logger.logException(e);
+			return Collections.emptyList();
 		}
 	}
 
@@ -54,7 +56,8 @@ public class GithubPackageRepository {
 				? client.extractTagsFromResponse(response)
 				: Collections.emptyList();
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			logger.logException(e);
+			return Collections.emptyList();
 		}
 	}
 

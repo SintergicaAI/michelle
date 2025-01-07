@@ -1,5 +1,6 @@
 package com.sintergica.michelle.repositories;
 
+import com.sintergica.michelle.configuration.Logger;
 import com.sintergica.michelle.entities.AntonService;
 import com.sintergica.michelle.services.AntonHttpClient;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class AntonServiceRepository {
 	private static final String SERVICE_PATH = "/service";
 	private static final String ANTON_PORT = ":42000";
 	private final AntonHttpClient client;
+	private final Logger logger;
 
 	public List<AntonService> getServices(String address) {
 		address += ANTON_PORT;
@@ -29,7 +31,8 @@ public class AntonServiceRepository {
 			}
 			return client.extractServicesFromResponse(response);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			logger.logException(e);
+			return Collections.emptyList();
 		}
 	}
 }

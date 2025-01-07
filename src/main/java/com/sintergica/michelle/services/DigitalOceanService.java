@@ -9,6 +9,7 @@ import com.myjeeva.digitalocean.pojo.Image;
 import com.myjeeva.digitalocean.pojo.Key;
 import com.myjeeva.digitalocean.pojo.Region;
 import com.sintergica.michelle.configuration.DigitalOceanConfig;
+import com.sintergica.michelle.configuration.Logger;
 import com.sintergica.michelle.entities.NewDroplet;
 import com.sintergica.michelle.services.collections.DropletSlugs;
 import com.sintergica.michelle.services.collections.Images;
@@ -17,12 +18,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class DigitalOceanService {
 	private final DigitalOceanConfig config;
+	private final Logger logger;
 
 	private DigitalOcean client() {
 		return StartupService.doConnection;
@@ -40,7 +43,8 @@ public class DigitalOceanService {
 				availableDroplets = client().getAvailableDroplets(pageSize, page);
 			}
 		} catch (DigitalOceanException | RequestUnsuccessfulException e) {
-			throw new RuntimeException(e);
+			logger.logException(e);
+			return Collections.emptyList();
 		}
 		return droplets;
 	}
@@ -81,7 +85,8 @@ public class DigitalOceanService {
 		try {
 			return client().createDroplet(newDroplet);
 		} catch (DigitalOceanException | RequestUnsuccessfulException e) {
-			throw new RuntimeException(e);
+			logger.logException(e);
+			return null;
 		}
 	}
 
@@ -94,7 +99,8 @@ public class DigitalOceanService {
 			client().deleteDroplet(droplet.getId());
 			return true;
 		} catch (DigitalOceanException | RequestUnsuccessfulException e) {
-			throw new RuntimeException(e);
+			logger.logException(e);
+			return false;
 		}
 	}
 }

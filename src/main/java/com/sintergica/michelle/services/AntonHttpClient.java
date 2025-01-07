@@ -25,7 +25,6 @@ public class AntonHttpClient {
 	private final JsonAdapter<List<AntonService>> serviceJsonAdapter = moshi.adapter(serviceType);
 
 	private Request makeRequestWithUrl(String url) {
-		System.out.println(dbConfig.getPassword());
 		return new Request.Builder()
 			.url(url)
 			.addHeader("Authorization", "Basic " + dbConfig.getPassword())

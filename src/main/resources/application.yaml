@@ -20,6 +20,10 @@ spring:
 server:
   port: 41000
 
+logging:
+  hook: ${MATTERMOST_LOG_WEBHOOK}
+  payload: "{\"username\":\"Logger\",\"icon_url\":\"https://www.turing.sintergica.ai/static/favicon.png\",\"text\": \"$MESSAGE\"}"
+
 githubconfig:
   login: ${GITHUB_LOGIN}
   url: https://api.github.com

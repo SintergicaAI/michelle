@@ -59,3 +59,8 @@ services:
         value: mainKey
         type: GENERAL
         scope: RUN_TIME
+
+      - key: MATTERMOST_LOG_WEBHOOK
+        value: ${MATTERMOST_WEBHOOK}
+        type: SECRET
+        scope: RUN_TIME

@@ -1,5 +1,6 @@
 package com.sintergica.michelle.services;
 
+import com.sintergica.michelle.configuration.Logger;
 import com.sintergica.michelle.entities.Server;
 import com.sintergica.michelle.repositories.AntonServiceRepository;
 import com.sintergica.michelle.repositories.ServerRepository;
@@ -16,6 +17,7 @@ import java.util.List;
 public class ServerService {
 	private final ServerRepository serverRepository;
 	private final AntonServiceRepository serviceRepository;
+	private final Logger logger;
 	private static final int TIMEOUT_MILLS = 500;
 	private static final int ANTON_PORT = 42000;
 
@@ -34,7 +36,7 @@ public class ServerService {
 				server.setHasAnton(false);
 			}
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			logger.logException(e);
 		}
 	}
 

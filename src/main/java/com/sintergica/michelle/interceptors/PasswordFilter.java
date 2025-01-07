@@ -1,6 +1,7 @@
 package com.sintergica.michelle.interceptors;
 
 import com.sintergica.michelle.configuration.DBConfig;
+import com.sintergica.michelle.configuration.Logger;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,6 +22,7 @@ import java.io.IOException;
 @Order(Ordered.HIGHEST_PRECEDENCE + 1)
 public class PasswordFilter implements Filter {
 	private final DBConfig dbConfig;
+	private final Logger logger;
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -29,6 +31,7 @@ public class PasswordFilter implements Filter {
 		if (isPasswordCorrect(httpRequest)) {
 			chain.doFilter(request, response);
 		}
+		logger.logText("REQUEST ATTEMPT: INCORRECT PASSWORD");
 		httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	}
 

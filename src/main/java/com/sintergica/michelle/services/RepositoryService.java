@@ -1,5 +1,6 @@
 package com.sintergica.michelle.services;
 
+import com.sintergica.michelle.configuration.Logger;
 import com.sintergica.michelle.entities.Repository;
 import com.sintergica.michelle.repositories.GHRepositoryRepository;
 import lombok.AllArgsConstructor;
@@ -8,12 +9,14 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class RepositoryService {
 	private final GHRepositoryRepository ghRepository;
+	private final Logger logger;
 
 	public List<Repository> getRepositories() {
 		List<GHRepository> all;
@@ -32,7 +35,8 @@ public class RepositoryService {
 		try {
 			return new Repository(ghRepository.createRepository(name));
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			logger.logException(e);
+			return null;
 		}
 	}
 
@@ -44,7 +48,8 @@ public class RepositoryService {
 			}
 			return new Repository(byName);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			logger.logException(e);
+			return null;
 		}
 	}
 
