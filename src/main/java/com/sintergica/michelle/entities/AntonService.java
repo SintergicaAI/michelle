@@ -8,4 +8,6 @@ public class AntonService {
 	private String image;
 	private String tag;
 	private String status;
+	private String eport;
+	private String iport;
 }
