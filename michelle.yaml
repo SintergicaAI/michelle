@@ -10,6 +10,11 @@ servers:
   - url: 'https://michelle-at5k7.ondigitalocean.app/'
     description: Servidor de produccion
 components:
+  securitySchemes:
+    basicAuth:
+      type: apiKey
+      name: Authorization
+      in: header
   responses:
     '500':
       description: Ha ocurrido un error interno del servidor y no se ha podido crear una respuesta apropiada
@@ -100,6 +105,14 @@ components:
           description: Estado actual del servicio
           type: string
           example: running
+        eport:
+          description: Puerto externo del servicio
+          type: string
+          example: 42000
+        iport:
+          description: Puerto interno del servicio
+          type: string
+          example: 42000
     service_list:
       description: Lista de servicios
       type: array
@@ -156,6 +169,8 @@ paths:
       description: Retorna una lista con los paquetes disponibles dentro de la organizacion para su uso
       tags:
         - Package
+      security:
+        - basicAuth: []
       responses:
         '200':
           description: Se ha retornado la informacion de los paquetes disponibles
@@ -177,6 +192,8 @@ paths:
       description: Retorna una lista con los repositorios de la organizacion en GitHub
       tags:
         - Repository
+      security:
+        - basicAuth: []
       responses:
         '200':
           description: Se ha retornado la informacion de los repositorios
@@ -198,6 +215,8 @@ paths:
       description: Crea un nuevo repositorio identificado por su nombre cotro
       tags:
         - Repository
+      security:
+        - basicAuth: []
       parameters:
         - name: name
           description: Nombre del nuevo repositorio a crear
@@ -222,6 +241,8 @@ paths:
       description: Endpoint para eliminar un repositorio identificado por su nombre corto
       tags:
         - Repository
+      security:
+        - basicAuth: []
       parameters:
         - name: name
           description: Nombre del repositorio a eliminar
@@ -245,6 +266,8 @@ paths:
       description: Retorna los servidores registrados
       tags:
         - Server
+      security:
+        - basicAuth: []
       responses:
         '200':
           description: Se ha retornado la informacion de los servidores registrados
@@ -261,6 +284,8 @@ paths:
       description: Registra la informacion de un nuevo servidor
       tags:
         - Server
+      security:
+        - basicAuth: []
       requestBody:
         description: Informacion del nuevo servidor
         content:
@@ -286,6 +311,8 @@ paths:
       description: Elimina un servidor identificado por su nombre
       tags:
         - Server
+      security:
+        - basicAuth: []
       parameters:
         - name: serverName
           description: Nombre del servidor a eliminar
