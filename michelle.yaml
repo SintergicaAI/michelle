@@ -9,157 +9,6 @@ info:
 servers:
   - url: 'https://michelle-at5k7.ondigitalocean.app/'
     description: Servidor de produccion
-components:
-  securitySchemes:
-    basicAuth:
-      type: apiKey
-      name: Authorization
-      in: header
-  responses:
-    '500':
-      description: Ha ocurrido un error interno del servidor y no se ha podido crear una respuesta apropiada
-  schemas:
-    package:
-      description: Paquete de uno u otro tipo dentro de la organizacion
-      type: object
-      required:
-        - id
-        - name
-        - package_type
-      properties:
-        id:
-          description: Id del paquete de acuerdo a su tipo
-          type: integer
-          format: int32
-          example: 7446645
-        name:
-          description: Nombre corto del paquete. Solo para fines expositivos
-          type: string
-          example: lightner_back
-        package_type:
-          description: Tipo de paquete
-          type: string
-          example: container
-        tags:
-          type: array
-          description: Versiones activas del paquete
-          items:
-            type: string
-            example: 0.0.5
-    package_list:
-      description: Lista de paquetes
-      type: array
-      items:
-        type: object
-        allOf:
-          - $ref: '#/components/schemas/package'
-          - $ref: '#/components/schemas/package'
-          - $ref: '#/components/schemas/package'
-    repository:
-      description: Repositorio de codigo en la organizacion de GitHub
-      type: object
-      properties:
-        name:
-          description: Nombre corto del repositorio. Solo para fines expositivos
-          type: string
-          example: anton
-        fullName:
-          description: Nombre completo del repositorio. Para fines administrativos
-          type: string
-          example: SintergicaAI/anton
-        url:
-          description: URL de la pagina del repositorio
-          type: string
-          example: 'https://github.com/SintergicaAI/anton'
-    repository_list:
-      description: Lista de repositorios
-      type: array
-      items:
-        type: object
-        allOf:
-          - $ref: '#/components/schemas/repository'
-          - $ref: '#/components/schemas/repository'
-          - $ref: '#/components/schemas/repository'
-    service:
-      description: Instancia de un paquete corriendo en un servidor
-      type: object
-      required:
-        - name
-        - image
-        - tag
-        - status
-      properties:
-        name:
-          description: Nombre del servicio
-          type: string
-          example: turing
-        image:
-          description: Imagen que corre actualmente el servicio
-          type: string
-          example: ghcr.io/sintergicaai/turing
-        tag:
-          description: Version del paquete que corre el servicio
-          type: string
-          example: 0.0.2
-        status:
-          description: Estado actual del servicio
-          type: string
-          example: running
-        eport:
-          description: Puerto externo del servicio
-          type: string
-          example: 42000
-        iport:
-          description: Puerto interno del servicio
-          type: string
-          example: 42000
-    service_list:
-      description: Lista de servicios
-      type: array
-      items:
-        type: object
-        allOf:
-          - $ref: '#/components/schemas/service'
-          - $ref: '#/components/schemas/service'
-          - $ref: '#/components/schemas/service'
-    server:
-      description: 'Registro de un servidor de la organizacion, fisico o virtual'
-      type: object
-      required:
-        - serverName
-        - address
-        - hasAnton
-      properties:
-        serverName:
-          description: Nombre del servidor. Opcional
-          type: string
-          example: openwebui-droplet
-        address:
-          description: Direccion del servidor
-          type: string
-          example: 24.199.72.114
-        hasAnton:
-          description: Booleano que indica si anton se encuentra corriendo en el servidor
-          type: boolean
-          example: true
-        services:
-          description: Lista de servicios corriendo actualmente en el servidor
-          type: array
-          items:
-            type: object
-            allOf:
-              - $ref: '#/components/schemas/service'
-              - $ref: '#/components/schemas/service'
-              - $ref: '#/components/schemas/service'
-    server_list:
-      description: Lista de servidores
-      type: array
-      items:
-        type: object
-        allOf:
-          - $ref: '#/components/schemas/server'
-          - $ref: '#/components/schemas/server'
-          - $ref: '#/components/schemas/server'
 paths:
   /package:
     summary: Catalogo de paquetes
@@ -177,13 +26,45 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/package_list'
+                description: Lista de paquetes
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - description: Paquete de uno u otro tipo dentro de la organizacion
+                      type: object
+                      required:
+                        - id
+                        - name
+                        - package_type
+                      properties:
+                        id:
+                          description: Id del paquete de acuerdo a su tipo
+                          type: integer
+                          format: int32
+                          example: 7446645
+                        name:
+                          description: Nombre corto del paquete. Solo para fines expositivos
+                          type: string
+                          example: lightner_back
+                        package_type:
+                          description: Tipo de paquete
+                          type: string
+                          example: container
+                        tags:
+                          type: array
+                          description: Versiones activas del paquete
+                          items:
+                            type: string
+                            example: 0.0.5
+                    - $ref: '#/paths/~1package/get/responses/200/content/application~1json/schema/items/allOf/0'
+                    - $ref: '#/paths/~1package/get/responses/200/content/application~1json/schema/items/allOf/0'
         '204':
           description: No hay paquetes disponibles
         '404':
           description: No se pudieron recuperar los paquetes de la organizacion
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/paths/~1server/get/responses/500'
   /repository:
     summary: Catalogo de repositorios
     description: Endpoint para administrar el catalogo de repositorios de la organizacion
@@ -200,13 +81,20 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/repository_list'
+                description: Lista de repositorios
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - $ref: '#/paths/~1repository~1%7Bname%7D/post/responses/201/content/application~1json/schema'
+                    - $ref: '#/paths/~1repository~1%7Bname%7D/post/responses/201/content/application~1json/schema'
+                    - $ref: '#/paths/~1repository~1%7Bname%7D/post/responses/201/content/application~1json/schema'
         '204':
           description: No hay repositorios disponibles
         '404':
           description: No se pudieron recuperar los repositorios de la organizacion
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/paths/~1server/get/responses/500'
   '/repository/{name}':
     summary: Endpoint que identifica un repositorio por su nombre corto
     description: Endpoint para administrar las propiedades de un repositorio identificado por su nombre corto
@@ -231,11 +119,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/repository'
+                description: Repositorio de codigo en la organizacion de GitHub
+                type: object
+                properties:
+                  name:
+                    description: Nombre corto del repositorio. Solo para fines expositivos
+                    type: string
+                    example: anton
+                  fullName:
+                    description: Nombre completo del repositorio. Para fines administrativos
+                    type: string
+                    example: SintergicaAI/anton
+                  url:
+                    description: URL de la pagina del repositorio
+                    type: string
+                    example: 'https://github.com/SintergicaAI/anton'
         '409':
           description: Ya existe un repositorio con ese nombre
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/paths/~1server/get/responses/500'
     delete:
       summary: Endpoint para eliminar un repositorio
       description: Endpoint para eliminar un repositorio identificado por su nombre corto
@@ -257,7 +159,7 @@ paths:
         '404':
           description: El repositorio no existia en la organizacion
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/paths/~1server/get/responses/500'
   /server:
     summary: Catalogo de servidores
     description: Catalogo de servidores
@@ -274,11 +176,18 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/server_list'
+                description: Lista de servidores
+                type: array
+                items:
+                  type: object
+                  allOf:
+                    - $ref: '#/paths/~1server/post/requestBody/content/application~1json/schema'
+                    - $ref: '#/paths/~1server/post/requestBody/content/application~1json/schema'
+                    - $ref: '#/paths/~1server/post/requestBody/content/application~1json/schema'
         '204':
           description: No hay servidores registrados
         '500':
-          $ref: '#/components/responses/500'
+          description: Ha ocurrido un error interno del servidor y no se ha podido crear una respuesta apropiada
     post:
       summary: Registra un nuevo servidor
       description: Registra la informacion de un nuevo servidor
@@ -291,18 +200,76 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/server'
+              description: 'Registro de un servidor de la organizacion, fisico o virtual'
+              type: object
+              required:
+                - serverName
+                - address
+                - hasAnton
+              properties:
+                serverName:
+                  description: Nombre del servidor. Opcional
+                  type: string
+                  example: openwebui-droplet
+                address:
+                  description: Direccion del servidor
+                  type: string
+                  example: 24.199.72.114
+                hasAnton:
+                  description: Booleano que indica si anton se encuentra corriendo en el servidor
+                  type: boolean
+                  example: true
+                services:
+                  description: Lista de servicios corriendo actualmente en el servidor
+                  type: array
+                  items:
+                    type: object
+                    allOf:
+                      - description: Instancia de un paquete corriendo en un servidor
+                        type: object
+                        required:
+                          - name
+                          - image
+                          - tag
+                          - status
+                        properties:
+                          name:
+                            description: Nombre del servicio
+                            type: string
+                            example: turing
+                          image:
+                            description: Imagen que corre actualmente el servicio
+                            type: string
+                            example: ghcr.io/sintergicaai/turing
+                          tag:
+                            description: Version del paquete que corre el servicio
+                            type: string
+                            example: 0.0.2
+                          status:
+                            description: Estado actual del servicio
+                            type: string
+                            example: running
+                          eport:
+                            description: Puerto externo del servicio
+                            type: string
+                            example: 42000
+                          iport:
+                            description: Puerto interno del servicio
+                            type: string
+                            example: 42000
+                      - $ref: '#/paths/~1server/post/requestBody/content/application~1json/schema/properties/services/items/allOf/0'
+                      - $ref: '#/paths/~1server/post/requestBody/content/application~1json/schema/properties/services/items/allOf/0'
       responses:
         '201':
           description: Se ha registrado el nuevo servidor
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/server'
+                $ref: '#/paths/~1server/post/requestBody/content/application~1json/schema'
         '409':
           description: El nombre del servidor ya se encuentra registrado
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/paths/~1server/get/responses/500'
   '/server/{serverName}':
     summary: Endpoint para administrar un servidor
     description: Endpoint para administrar la informacion de un servidor identificado por su nombre
@@ -327,4 +294,4 @@ paths:
         '404':
           description: No se ha encontrado el servidor
         '500':
-          $ref: '#/components/responses/500'
+          $ref: '#/paths/~1server/get/responses/500'
