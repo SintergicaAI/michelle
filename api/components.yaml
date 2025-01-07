@@ -1,4 +1,13 @@
 components:
+  parameters:
+    password:
+      name: Authorization
+      description: Contraseña del servicio
+      in: header
+      schema:
+        type: string
+        example: Basic adfklsjldf
+
   securitySchemes:
     basicAuth:
       type: apiKey

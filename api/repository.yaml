@@ -7,6 +7,8 @@ get:
     - Repository
   security:
     - basicAuth: [ ]
+  parameters:
+    - $ref: "components.yaml#/components/parameters/password"
   responses:
     200:
       description: Se ha retornado la informacion de los repositorios

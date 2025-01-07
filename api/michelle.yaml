@@ -37,6 +37,7 @@ paths:
             type: string
             example: openwebui-droplet
           required: true
+        - $ref: "components.yaml#/components/parameters/password"
       responses:
         200:
           description: Se ha eliminado el servidor

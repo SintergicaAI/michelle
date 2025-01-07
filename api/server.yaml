@@ -7,6 +7,8 @@ get:
     - Server
   security:
     - basicAuth: [ ]
+  parameters:
+    - $ref: "components.yaml#/components/parameters/password"
   responses:
     200:
       description: Se ha retornado la informacion de los servidores registrados
@@ -31,6 +33,8 @@ post:
       application/json:
         schema:
           $ref: "components.yaml#/components/schemas/server"
+  parameters:
+    - $ref: "components.yaml#/components/parameters/password"
   responses:
     201:
       description: Se ha registrado el nuevo servidor
