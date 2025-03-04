@@ -6,9 +6,6 @@ info:
   contact:
     name: Edson Manuel Carballo Vera
     email: edson.vera@sintergica.ai
-servers:
-  - url: 'https://michelle-at5k7.ondigitalocean.app/'
-    description: Servidor de produccion
 paths:
   /package:
     summary: Catalogo de paquetes
@@ -18,10 +15,8 @@ paths:
       description: Retorna una lista con los paquetes disponibles dentro de la organizacion para su uso
       tags:
         - Package
-      security:
-        - basicAuth: []
       parameters:
-        - $ref: '#/paths/~1server~1%7BserverName%7D/delete/parameters/1'
+        - $ref: '#/paths/~1event~1%7Bchannel%7D/put/parameters/1'
       responses:
         '200':
           description: Se ha retornado la informacion de los paquetes disponibles
@@ -75,10 +70,8 @@ paths:
       description: Retorna una lista con los repositorios de la organizacion en GitHub
       tags:
         - Repository
-      security:
-        - basicAuth: []
       parameters:
-        - $ref: '#/paths/~1server~1%7BserverName%7D/delete/parameters/1'
+        - $ref: '#/paths/~1event~1%7Bchannel%7D/put/parameters/1'
       responses:
         '200':
           description: Se ha retornado la informacion de los repositorios
@@ -107,8 +100,6 @@ paths:
       description: Crea un nuevo repositorio identificado por su nombre cotro
       tags:
         - Repository
-      security:
-        - basicAuth: []
       parameters:
         - name: name
           description: Nombre del nuevo repositorio a crear
@@ -117,7 +108,7 @@ paths:
             type: string
             example: proyecto_front
           required: true
-        - $ref: '#/paths/~1server~1%7BserverName%7D/delete/parameters/1'
+        - $ref: '#/paths/~1event~1%7Bchannel%7D/put/parameters/1'
       responses:
         '201':
           description: Se ha creado el nuevo repositorio
@@ -158,7 +149,7 @@ paths:
             type: string
             example: proyecto_front
           required: true
-        - $ref: '#/paths/~1server~1%7BserverName%7D/delete/parameters/1'
+        - $ref: '#/paths/~1event~1%7Bchannel%7D/put/parameters/1'
       responses:
         '200':
           description: Se ha eliminado el repositorio
@@ -174,10 +165,8 @@ paths:
       description: Retorna los servidores registrados
       tags:
         - Server
-      security:
-        - basicAuth: []
       parameters:
-        - $ref: '#/paths/~1server~1%7BserverName%7D/delete/parameters/1'
+        - $ref: '#/paths/~1event~1%7Bchannel%7D/put/parameters/1'
       responses:
         '200':
           description: Se ha retornado la informacion de los servidores registrados
@@ -268,7 +257,7 @@ paths:
                       - $ref: '#/paths/~1server/post/requestBody/content/application~1json/schema/properties/services/items/allOf/0'
                       - $ref: '#/paths/~1server/post/requestBody/content/application~1json/schema/properties/services/items/allOf/0'
       parameters:
-        - $ref: '#/paths/~1server~1%7BserverName%7D/delete/parameters/1'
+        - $ref: '#/paths/~1event~1%7Bchannel%7D/put/parameters/1'
       responses:
         '201':
           description: Se ha registrado el nuevo servidor
@@ -288,8 +277,6 @@ paths:
       description: Elimina un servidor identificado por su nombre
       tags:
         - Server
-      security:
-        - basicAuth: []
       parameters:
         - name: serverName
           description: Nombre del servidor a eliminar
@@ -297,6 +284,47 @@ paths:
           schema:
             type: string
             example: openwebui-droplet
+          required: true
+        - $ref: '#/paths/~1event~1%7Bchannel%7D/put/parameters/1'
+      responses:
+        '200':
+          description: Se ha eliminado el servidor
+        '404':
+          description: No se ha encontrado el servidor
+        '500':
+          description: Ha ocurrido un error interno del servidor y no se ha podido crear una respuesta apropiada
+  '/event/{channel}':
+    summary: Endpoint para administrar eventos
+    description: Endpoint para administrar eventos
+    post:
+      summary: Registra un evento y subscribete a el
+      description: Registra un evento y subscribete a el
+      tags:
+        - Events
+      parameters:
+        - name: channel
+          description: Nombre del evento o canal
+          in: path
+          schema:
+            type: string
+            example: logout
+          required: true
+        - $ref: '#/paths/~1event~1%7Bchannel%7D/put/parameters/1'
+      responses:
+        '200':
+          description: Se ha registrado la subscripción
+    put:
+      summary: Dispara un evento
+      description: Dispara un evento previamente registrado
+      tags:
+        - Events
+      parameters:
+        - name: channel
+          description: Nombre del evento o canal
+          in: path
+          schema:
+            type: string
+            example: logout
           required: true
         - name: Authorization
           description: Contraseña del servicio
@@ -306,8 +334,6 @@ paths:
             example: Basic adfklsjldf
       responses:
         '200':
-          description: Se ha eliminado el servidor
+          description: Se ha disparado el evento
         '404':
-          description: No se ha encontrado el servidor
-        '500':
-          description: Ha ocurrido un error interno del servidor y no se ha podido crear una respuesta apropiada
+          description: El evento no se encuentra registrado
