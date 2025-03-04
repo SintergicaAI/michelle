@@ -1,5 +1,6 @@
 package com.sintergica.michelle.services;
 
+import com.sintergica.michelle.configuration.GeneralConfiguration;
 import com.sintergica.michelle.configuration.Logger;
 import com.sintergica.michelle.entities.Server;
 import com.sintergica.michelle.repositories.AntonServiceRepository;
@@ -17,9 +18,8 @@ import java.util.List;
 public class ServerService {
 	private final ServerRepository serverRepository;
 	private final AntonServiceRepository serviceRepository;
+	private final GeneralConfiguration generalConfiguration;
 	private final Logger logger;
-	private static final int TIMEOUT_MILLS = 500;
-	private static final int ANTON_PORT = 42000;
 
 	private boolean serverExists(Server newServer) {
 		return serverRepository.findByServerName(newServer.getServerName())
@@ -30,7 +30,10 @@ public class ServerService {
 		try (Socket socket = new Socket()) {
 			socket.setReuseAddress(true);
 			try {
-				socket.connect(new InetSocketAddress(server.getAddress(), ANTON_PORT), TIMEOUT_MILLS);
+				InetSocketAddress socketAddress = new InetSocketAddress(
+					server.getAddress(), generalConfiguration.getAntonPort());
+
+				socket.connect(socketAddress, generalConfiguration.getHttpRequestTimeout());
 				server.setHasAnton(true);
 			} catch (IOException e) {
 				server.setHasAnton(false);

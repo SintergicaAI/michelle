@@ -5,8 +5,6 @@ get:
   description: Retorna una lista con los repositorios de la organizacion en GitHub
   tags:
     - Repository
-  security:
-    - basicAuth: [ ]
   parameters:
     - $ref: "components.yaml#/components/parameters/password"
   responses:

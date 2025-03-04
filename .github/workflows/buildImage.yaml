@@ -31,11 +31,6 @@ jobs:
   build_image:
     runs-on: ubuntu-latest
     steps:
-      - name: Testing workflow inputs
-        run: |
-          echo ${{ inputs.tag }}
-          echo ${{ github.event.inputs.tag }}
-
       - name: Checkout code
         uses: actions/checkout@v2
 

@@ -1,8 +1,6 @@
 package com.sintergica.michelle.controllers;
 
 
-import com.myjeeva.digitalocean.exception.DigitalOceanException;
-import com.myjeeva.digitalocean.exception.RequestUnsuccessfulException;
 import com.myjeeva.digitalocean.pojo.Droplet;
 import com.sintergica.michelle.entities.NewDroplet;
 import com.sintergica.michelle.services.DigitalOceanService;

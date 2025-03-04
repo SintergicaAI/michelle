@@ -6,9 +6,6 @@ info:
   contact:
     name: Edson Manuel Carballo Vera
     email: edson.vera@sintergica.ai
-servers:
-  - url: 'https://michelle-at5k7.ondigitalocean.app/'
-    description: Servidor de produccion
 
 paths:
   /package:
@@ -27,8 +24,6 @@ paths:
       description: Elimina un servidor identificado por su nombre
       tags:
         - Server
-      security:
-        - basicAuth: [ ]
       parameters:
         - name: serverName
           description: Nombre del servidor a eliminar
@@ -45,4 +40,42 @@ paths:
           description: No se ha encontrado el servidor
         500:
           $ref: "components.yaml#/components/responses/500"
-
+  /event/{channel}:
+    summary: Endpoint para administrar eventos
+    description: Endpoint para administrar eventos
+    post:
+      summary: Registra un evento y subscribete a el
+      description: Registra un evento y subscribete a el
+      tags:
+        - Events
+      parameters:
+        - name: channel
+          description: Nombre del evento o canal
+          in: path
+          schema:
+            type: string
+            example: logout
+          required: true
+        - $ref: "components.yaml#/components/parameters/password"
+      responses:
+        200:
+          description: Se ha registrado la subscripción
+    put:
+      summary: Dispara un evento
+      description: Dispara un evento previamente registrado
+      tags:
+        - Events
+      parameters:
+        - name: channel
+          description: Nombre del evento o canal
+          in: path
+          schema:
+            type: string
+            example: logout
+          required: true
+        - $ref: "components.yaml#/components/parameters/password"
+      responses:
+        200:
+          description: Se ha disparado el evento
+        404:
+          description: El evento no se encuentra registrado

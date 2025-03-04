@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface ServerRepository extends CrudRepository<Server, Long> {
 	@Query(nativeQuery = true,
-	value = "SELECT * FROM server")
+	value = "SELECT id, address FROM server")
 	List<Server> getAll();
 
 	Optional<Server> findByServerName(String serverName);

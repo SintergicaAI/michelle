@@ -25,7 +25,6 @@ import java.util.List;
 @RequestMapping("/server")
 public class ServerController {
 	private final ServerService serverService;
-	private final DigitalOceanService digitalOceanService;
 
 	@GetMapping
 	public ResponseEntity<?> getAllServers() {

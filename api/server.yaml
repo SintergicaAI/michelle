@@ -5,8 +5,6 @@ get:
   description: Retorna los servidores registrados
   tags:
     - Server
-  security:
-    - basicAuth: [ ]
   parameters:
     - $ref: "components.yaml#/components/parameters/password"
   responses:

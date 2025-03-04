@@ -5,8 +5,6 @@ post:
   description: Crea un nuevo repositorio identificado por su nombre cotro
   tags:
     - Repository
-  security:
-    - basicAuth: [ ]
   parameters:
     - name: name
       description: Nombre del nuevo repositorio a crear

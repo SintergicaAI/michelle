@@ -30,9 +30,10 @@ public class PasswordFilter implements Filter {
 		final HttpServletResponse httpResponse = (HttpServletResponse) response;
 		if (isPasswordCorrect(httpRequest)) {
 			chain.doFilter(request, response);
+		} else {
+			logger.logText("REQUEST ATTEMPT: INCORRECT PASSWORD");
+			httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		}
-		logger.logText("REQUEST ATTEMPT: INCORRECT PASSWORD");
-		httpResponse.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 	}
 
 	public boolean isPasswordCorrect(HttpServletRequest request) {
