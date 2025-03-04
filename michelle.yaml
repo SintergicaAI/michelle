@@ -314,12 +314,12 @@ paths:
           required: true
         - $ref: '#/paths/~1event~1%7Bchannel%7D/put/parameters/1'
       requestBody:
-        description: Webhook para notificar evento
+        description: Endpoint del webhook para notificar evento. El resto de la dirección se obtendrá del la llamada
         content:
           text/plain:
             schema:
               type: string
-              example: 'www.yourDomain.com:3000/eventNotification'
+              example: /user/logout
       responses:
         '200':
           description: Se ha registrado la subscripción
