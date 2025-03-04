@@ -20,9 +20,9 @@ public class EventController {
 	@PostMapping("/{channel}")
 	public ResponseEntity<?> subscribe(
 		@PathVariable String channel,
-		@RequestBody String clientAddress) {
+		@RequestBody String endpoint) {
 
-		eventService.subscribe(channel, clientAddress);
+		eventService.subscribe(channel, endpoint);
 		return ResponseEntity.ok().build();
 	}
 

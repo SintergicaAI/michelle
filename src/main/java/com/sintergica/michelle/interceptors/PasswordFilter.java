@@ -25,7 +25,8 @@ public class PasswordFilter implements Filter {
 	private final Logger logger;
 
 	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+		throws ServletException, IOException {
 		final HttpServletRequest httpRequest = (HttpServletRequest) request;
 		final HttpServletResponse httpResponse = (HttpServletResponse) response;
 		if (isPasswordCorrect(httpRequest)) {

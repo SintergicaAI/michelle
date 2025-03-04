@@ -1,7 +1,10 @@
 package com.sintergica.michelle.services;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,7 +17,11 @@ public class EventService {
 	private final ReceptorClient receptorClient;
 	private final Map<String, List<String>> eventRecords = new HashMap<>();
 
-	public void subscribe(String channel, String address) {
+	public void subscribe(String channel, String endpoint) {
+		if (!endpoint.startsWith("/")) {
+			endpoint = "/" + endpoint;
+		}
+		String address = getClientIpAddress() + endpoint;
 		this.channelIfNotExists(channel);
 		this.addAddressToChannel(channel, address);
 	}
@@ -43,4 +50,30 @@ public class EventService {
 			addressList.add(address);
 		}
 	}
+
+	public static String getClientIpAddress() {
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		for (String header : IP_HEADER_CANDIDATES) {
+			String ipList = request.getHeader(header);
+			if (ipList != null && !ipList.isEmpty() && !"unknown".equalsIgnoreCase(ipList)) {
+				return ipList.split(",")[0];
+			}
+		}
+
+		return request.getRemoteAddr();
+	}
+
+	private static final String[] IP_HEADER_CANDIDATES = {
+		"X-Forwarded-For",
+		"Proxy-Client-IP",
+		"WL-Proxy-Client-IP",
+		"HTTP_X_FORWARDED_FOR",
+		"HTTP_X_FORWARDED",
+		"HTTP_X_CLUSTER_CLIENT_IP",
+		"HTTP_CLIENT_IP",
+		"HTTP_FORWARDED_FOR",
+		"HTTP_FORWARDED",
+		"HTTP_VIA",
+		"REMOTE_ADDR"
+	};
 }
